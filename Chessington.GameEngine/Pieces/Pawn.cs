@@ -15,9 +15,17 @@ namespace Chessington.GameEngine.Pieces
             var possibleMoves = new List<Square>();
 
             if (Player == Player.White)
-                possibleMoves.Add(new Square(3, 0));
+            {
+                if (PreviousPosition == null)
+                    possibleMoves.Add(new Square(currentPosition.Row - 2, currentPosition.Col));
+                possibleMoves.Add(new Square(currentPosition.Row - 1, currentPosition.Col));
+            }
             else if (Player == Player.Black)
-                possibleMoves.Add(new Square(5, 0));
+            {
+                if (PreviousPosition == null)
+                    possibleMoves.Add(new Square(currentPosition.Row + 2, currentPosition.Col));
+                possibleMoves.Add(new Square(currentPosition.Row + 1, currentPosition.Col));
+            }
 
             return possibleMoves;
         }
