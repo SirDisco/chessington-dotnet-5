@@ -24,11 +24,18 @@ namespace Chessington.GameEngine
         {
             _board[square.Row, square.Col] = pawn;
         }
+
+        public bool IsSquareInBoard(Square square)
+        {
+            if (square.Row < 0 || square.Row > _board.GetLength(0) - 1 ||
+                square.Col < 0 || square.Col > _board.GetLength(1) - 1)
+                return false;
+            return true;
+        }
     
         public Piece GetPiece(Square square)
         {
-            if (square.Row < 0 || square.Row > _board.GetLength(0) ||
-                square.Col < 0 || square.Col > _board.GetLength(1))
+            if (!IsSquareInBoard(square))
                 return null;
             
             return _board[square.Row, square.Col];
