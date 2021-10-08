@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
@@ -7,7 +8,14 @@ namespace Chessington.GameEngine.Pieces
     public class Rook : Piece
     {
         public Rook(Player player)
-            : base(player) { }
+            : base(player)
+        {
+            _directions = new Tuple<int, int>[4];
+            _directions[0] = new Tuple<int, int>(0, 1);
+            _directions[1] = new Tuple<int, int>(1, 0);
+            _directions[2] = new Tuple<int, int>(-1, 0);
+            _directions[3] = new Tuple<int, int>(0, -1);
+        }
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
@@ -15,38 +23,23 @@ namespace Chessington.GameEngine.Pieces
 
             var possibleMoves = new List<Square>();
 
-            // Add vertical moves
-            for (int pos = currentPosition.Row + 1; board.IsSquareInBoard(Square.At(pos, 0)); pos++)
+            foreach (var direction in _directions)
             {
-                possibleMoves.Add(Square.At(pos, currentPosition.Col));
+                var row = currentPosition.Row + direction.Item1;
+                var col = currentPosition.Col + direction.Item2;
 
-                if (board.GetPiece(Square.At(pos, currentPosition.Col)) != null)
-                    break;
-            }
-            
-            for (int pos = currentPosition.Row - 1; board.IsSquareInBoard(Square.At(pos, 0)); pos--)
-            {
-                possibleMoves.Add(Square.At(pos, currentPosition.Col));
+                // Loop until we find the edge of the board
+                while (board.IsSquareInBoard(Square.At(row, col)))
+                {
+                    var square = Square.At(row, col);
+                    possibleMoves.Add(square);
 
-                if (board.GetPiece(Square.At(pos, currentPosition.Col)) != null)
-                    break;
-            }
-            
-            // Add horizontal moves
-            for (int pos = currentPosition.Col + 1; board.IsSquareInBoard(Square.At(0, pos)); pos++)
-            {
-                possibleMoves.Add(Square.At(currentPosition.Row, pos));
+                    if (board.GetPiece(square) != null)
+                        break;
 
-                if (board.GetPiece(Square.At(currentPosition.Row, pos)) != null)
-                    break;
-            }
-            
-            for (int pos = currentPosition.Col - 1; board.IsSquareInBoard(Square.At(0, pos)); pos--)
-            {
-                possibleMoves.Add(Square.At(currentPosition.Row, pos));
-
-                if (board.GetPiece(Square.At(currentPosition.Row, pos)) != null)
-                    break;
+                    row += direction.Item1;
+                    col += direction.Item2;
+                }
             }
 
             // Remove moves that contain a friendly piece
@@ -54,5 +47,7 @@ namespace Chessington.GameEngine.Pieces
 
             return possibleMoves;
         }
+
+        private Tuple<int, int>[] _directions;
     }
 }
