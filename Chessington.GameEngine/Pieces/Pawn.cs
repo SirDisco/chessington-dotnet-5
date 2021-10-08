@@ -13,7 +13,6 @@ namespace Chessington.GameEngine.Pieces
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
             var currentPosition = board.FindPiece(this);
-            var oppositeColour = (Player == Player.Black) ? Player.White : Player.Black;
 
             var direction = (Player == Player.Black) ? 1 : -1;
             
@@ -38,17 +37,14 @@ namespace Chessington.GameEngine.Pieces
             {
                 possibleMoves.Add(oneSquareInFront);
                 
-                if (PreviousPosition == null)
+                if (PreviousPosition == null && board.GetPiece(twoSquaresInFront) == null)
                     possibleMoves.Add(twoSquaresInFront);
             }
-            
-            // Remove positions where a piece already resides
-            possibleMoves.RemoveAll((s => board.GetPiece(s) != null));
-            
+
             // Pawns taking diagonally
-            if (board.GetPiece(diagonallyLeft) != null && board.GetPiece(diagonallyLeft).Player == oppositeColour)
+            if (board.GetPiece(diagonallyLeft) != null && board.GetPiece(diagonallyLeft).Player == OppositeColour)
                 possibleMoves.Add(diagonallyLeft);
-            if (board.GetPiece(diagonallyRight) != null && board.GetPiece(diagonallyRight).Player == oppositeColour)
+            if (board.GetPiece(diagonallyRight) != null && board.GetPiece(diagonallyRight).Player == OppositeColour)
                 possibleMoves.Add(diagonallyRight);
 
             return possibleMoves;

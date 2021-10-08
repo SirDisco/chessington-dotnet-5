@@ -7,9 +7,11 @@ namespace Chessington.GameEngine.Pieces
         protected Piece(Player player)
         {
             Player = player;
+            OppositeColour = (Player == Player.Black) ? Player.White : Player.Black;
         }
 
         public Player Player { get; private set; }
+        public Player OppositeColour { get; private set; }
         public Square? PreviousPosition = null;
 
         public abstract IEnumerable<Square> GetAvailableMoves(Board board);
