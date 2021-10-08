@@ -16,16 +16,29 @@ namespace Chessington.GameEngine.Pieces
 
             if (Player == Player.White)
             {
-                if (PreviousPosition == null)
-                    possibleMoves.Add(new Square(currentPosition.Row - 2, currentPosition.Col));
-                possibleMoves.Add(new Square(currentPosition.Row - 1, currentPosition.Col));
+                var oneSquareInFront = new Square(currentPosition.Row - 1, currentPosition.Col);
+
+                if (board.GetPiece(oneSquareInFront) == null)
+                {
+                    possibleMoves.Add(oneSquareInFront);
+                    if (PreviousPosition == null)
+                        possibleMoves.Add(new Square(currentPosition.Row - 2, currentPosition.Col));
+                }
             }
             else if (Player == Player.Black)
             {
-                if (PreviousPosition == null)
-                    possibleMoves.Add(new Square(currentPosition.Row + 2, currentPosition.Col));
-                possibleMoves.Add(new Square(currentPosition.Row + 1, currentPosition.Col));
+                var oneSquareInFront = new Square(currentPosition.Row + 1, currentPosition.Col);
+
+                if (board.GetPiece(oneSquareInFront) == null)
+                {
+                    possibleMoves.Add(oneSquareInFront);
+                    if (PreviousPosition == null)
+                        possibleMoves.Add(new Square(currentPosition.Row + 2, currentPosition.Col));
+                }
             }
+
+            // Remove positions where a piece already resides
+            possibleMoves.RemoveAll((s => board.GetPiece(s) != null));
 
             return possibleMoves;
         }
