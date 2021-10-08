@@ -14,6 +14,8 @@ namespace Chessington.GameEngine.Pieces
         {
             var currentPosition = board.FindPiece(this);
             var oppositeColour = (Player == Player.Black) ? Player.White : Player.Black;
+
+            var direction = (Player == Player.Black) ? 1 : -1;
             
             var possibleMoves = new List<Square>();
 
@@ -23,24 +25,15 @@ namespace Chessington.GameEngine.Pieces
 
             Square diagonallyRight;
             Square diagonallyLeft;
+            
+            // Get movement squares
+            oneSquareInFront = new Square(currentPosition.Row + direction, currentPosition.Col);
+            twoSquaresInFront = new Square(currentPosition.Row + 2 * direction, currentPosition.Col);
 
-            if (Player == Player.White)
-            {
-                oneSquareInFront = new Square(currentPosition.Row - 1, currentPosition.Col);
-                twoSquaresInFront = new Square(currentPosition.Row - 2, currentPosition.Col);
-
-                diagonallyLeft = new Square(currentPosition.Row - 1, currentPosition.Col - 1);
-                diagonallyRight = new Square(currentPosition.Row - 1, currentPosition.Col + 1);
-            }
-            else
-            {
-                oneSquareInFront = new Square(currentPosition.Row + 1, currentPosition.Col);
-                twoSquaresInFront = new Square(currentPosition.Row + 2, currentPosition.Col);
-                
-                diagonallyLeft = new Square(currentPosition.Row + 1, currentPosition.Col - 1);
-                diagonallyRight = new Square(currentPosition.Row + 1, currentPosition.Col + 1);
-            }
-
+            diagonallyLeft = new Square(currentPosition.Row + direction, currentPosition.Col - 1);
+            diagonallyRight = new Square(currentPosition.Row + direction, currentPosition.Col + 1);
+            
+            // Check for blocking pieces
             if (board.GetPiece(oneSquareInFront) == null)
             {
                 possibleMoves.Add(oneSquareInFront);
@@ -55,7 +48,7 @@ namespace Chessington.GameEngine.Pieces
             // Pawns taking diagonally
             if (board.GetPiece(diagonallyLeft) != null && board.GetPiece(diagonallyLeft).Player == oppositeColour)
                 possibleMoves.Add(diagonallyLeft);
-            if (board.GetPiece(diagonallyRight) != null && board.GetPiece(diagonallyLeft).Player == oppositeColour)
+            if (board.GetPiece(diagonallyRight) != null && board.GetPiece(diagonallyRight).Player == oppositeColour)
                 possibleMoves.Add(diagonallyRight);
 
             return possibleMoves;
