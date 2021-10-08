@@ -32,6 +32,26 @@ namespace Chessington.GameEngine.Pieces
                     break;
             }
             
+            // Add horizontal moves
+            for (int pos = currentPosition.Col + 1; board.IsSquareInBoard(Square.At(0, pos)); pos++)
+            {
+                possibleMoves.Add(Square.At(currentPosition.Row, pos));
+
+                if (board.GetPiece(Square.At(currentPosition.Row, pos)) != null)
+                    break;
+            }
+            
+            for (int pos = currentPosition.Col - 1; board.IsSquareInBoard(Square.At(0, pos)); pos--)
+            {
+                possibleMoves.Add(Square.At(currentPosition.Row, pos));
+
+                if (board.GetPiece(Square.At(currentPosition.Row, pos)) != null)
+                    break;
+            }
+
+            // Remove moves that contain a friendly piece
+            possibleMoves.RemoveAll(s => (board.GetPiece(s) != null) && (board.GetPiece(s).Player == Player));
+
             return possibleMoves;
         }
     }
