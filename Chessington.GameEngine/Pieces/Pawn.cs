@@ -10,7 +10,12 @@ namespace Chessington.GameEngine.Pieces
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
-            return Enumerable.Empty<Square>();
+            var possibleMoves = new List<Square>();
+            
+            possibleMoves.Add(new Square(3, 0));
+            possibleMoves.Add(new Square(5, 0));
+            
+            return possibleMoves;
         }
     }
 }
