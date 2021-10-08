@@ -27,6 +27,10 @@ namespace Chessington.GameEngine
     
         public Piece GetPiece(Square square)
         {
+            if (square.Row < 0 || square.Row > _board.GetLength(0) ||
+                square.Col < 0 || square.Col > _board.GetLength(1))
+                return null;
+            
             return _board[square.Row, square.Col];
         }
         
