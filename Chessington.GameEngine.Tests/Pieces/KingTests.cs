@@ -8,7 +8,7 @@ namespace Chessington.GameEngine.Tests.Pieces
     public class KingTests
     {
         [Test]
-        public void King_CanMoveOneInEveryDirection()
+        public void King_CanMoveInEveryDirection()
         {
             var board = new Board();
             var king = new King(Player.White);
@@ -26,6 +26,20 @@ namespace Chessington.GameEngine.Tests.Pieces
             moves.Should().Contain(Square.At(3, 3));
             moves.Should().Contain(Square.At(3, 4));
             moves.Should().Contain(Square.At(3, 5));
+        }
+        
+        [Test]
+        public void King_CanMoveOnlyOne()
+        {
+            var board = new Board();
+            var king = new King(Player.White);
+            
+            board.AddPiece(Square.At(4, 4), king);
+
+            var moves = king.GetAvailableMoves(board);
+
+            moves.Should().NotContain(Square.At(4, 6));
+            moves.Should().NotContain(Square.At(5, 2));
         }
         
         [Test]
