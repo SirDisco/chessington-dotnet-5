@@ -4,11 +4,11 @@ using Chessington.GameEngine.Pieces;
 
 namespace Chessington.GameEngine
 {
-    public class Board
+    public class Board : IBoard
     {
         private readonly Piece[,] _board;
         public Player CurrentPlayer { get; private set; }
-        public IList<Piece> CapturedPieces { get; private set; } 
+        public IList<Piece> CapturedPieces { get; private set; }
 
         public Board()
             : this(Player.White) { }
