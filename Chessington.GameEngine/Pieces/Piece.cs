@@ -14,7 +14,7 @@ namespace Chessington.GameEngine.Pieces
         public Player OppositeColour { get; private set; }
         public Square? PreviousPosition = null;
 
-        public abstract int PieceValue { get; protected set; }
+        public abstract int PieceValue { get; }
 
         public abstract IEnumerable<Square> GetAvailableMoves(Board board);
 

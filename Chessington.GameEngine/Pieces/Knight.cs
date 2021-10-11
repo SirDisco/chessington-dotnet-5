@@ -45,7 +45,7 @@ namespace Chessington.GameEngine.Pieces
             return possibleMoves;
         }
 
-        public override int PieceValue { get; protected set; } = 3;
+        public override int PieceValue => 3;
         private List<Tuple<int, int>> _relativeMoves;
     }
 }

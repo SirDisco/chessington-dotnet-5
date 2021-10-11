@@ -42,7 +42,7 @@ namespace Chessington.GameEngine.Pieces
             return possibleMoves;
         }
 
-        public override int PieceValue { get; protected set; } = Int32.MaxValue;
+        public override int PieceValue => Int32.MaxValue;
         private Tuple<int, int>[] _directions;
     }
 }
